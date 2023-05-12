@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<!-- Meta, title, CSS, favicons, etc. -->
 	<meta charset="utf-8">
@@ -29,6 +29,12 @@
 	<link href="<?= base_url('public/gt')?>/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 	<!-- Custom Theme Style -->
 	<link href="<?= base_url('public/gt')?>/build/css/custom.min.css" rel="stylesheet">
+	<!-- Datatables -->
+    <link href="<?= base_url('public/gt/')?>vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('public/gt/')?>vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('public/gt/')?>vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('public/gt/')?>vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url('public/gt/')?>vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -37,26 +43,23 @@
 			<div class="col-md-3 left_col">
 				<div class="left_col scroll-view">
 					<div class="navbar nav_title" style="border: 0;">
-						<a href="#" class="site_title"><i class="fa fa-book"></i> <span>My Library</span></a>
+						<a href="<?=base_url('home')?>" class="site_title"><i class="fa fa-book"></i> <span>My Library</span></a>
 					</div>
-
-					<div class="clearfix">
-                    </div>
-
+					<div class="clearfix"></div>
 					<!-- sidebar menu -->
 					<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 						<div class="menu_section">
 						<ul class="nav side-menu">
 								<li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li><a href="#">Staf</a></li>
+										<li><a href="<?=base_url('home')?>">Home</a></li>
 									</ul>
 								</li>
 							</ul>
 							<ul class="nav side-menu">
 								<li><a><i class="fa fa-user"></i> User <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li><a href="#">Staf</a></li>
+										<li><a href="<?=base_url('staff')?>">Staf</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -112,7 +115,6 @@
 			</div>
 			<!-- /top navigation -->
 
-
 			<!-- page content -->
 			<?=$this->renderSection('content')?>
 			<!-- /page content -->
@@ -120,12 +122,11 @@
 			<!-- footer content -->
 			<footer>
 				<div class="pull-right">
-					MyLib by <a href="#">MeiyAlfa</a>
+					MyLib by <a href="#">Ahmad</a>
 				</div>
 				<div class="clearfix"></div>
 			</footer>
 			<!-- /footer content -->
-
         </div>
 	</div>
 
@@ -164,6 +165,23 @@
 	<script src="<?= base_url('public/gt')?>/vendors/starrr/dist/starrr.js"></script>
 	<!-- Custom Theme Scripts -->
 	<script src="<?= base_url('public/gt')?>/build/js/custom.min.js"></script>
+	<!-- Datatables -->
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/jszip/dist/jszip.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="<?= base_url('public/gt/')?>vendors/pdfmake/build/vfs_fonts.js"></script>
+
 
 </body>
 </html>

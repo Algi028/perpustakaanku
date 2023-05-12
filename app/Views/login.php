@@ -32,8 +32,9 @@
         <div class="animate form login_form">
           <section class="login_content">
             <form action="<?=base_url('auth')?>" method="post" enctype="multypart/form-data">
+            <?=csrf_field() ?>
               <h1>Login Form</h1>
-              <?php if (!empty(session()->getFlashdata('error'))) : ?>
+                   <?php if (!empty(session()->getFlashdata('error'))) : ?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong><?=session()->getFlashdata('error')?></strong> 
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
