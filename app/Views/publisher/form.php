@@ -46,7 +46,7 @@
 								<div class=" field item form-group">
 									<label class="col-form-label col-md-3 col-sm-3  label-align">Contact</label>
 									<div class="input-group col-md-6 col-sm-6">
-										<input type="number" name="contact" class="form-control <?=(!empty(session()->getFlashdata('validation')['contact'])) ? 'is-invalid' : ''?>" placeholder="" value="<?= ($is_edit) ? '' : old('contact') ?>">
+										<input type="number" name="contact" class="form-control <?=(!empty(session()->getFlashdata('validation')['contact'])) ? 'is-invalid' : ''?>" placeholder="" value="<?= ($is_edit) ? $item['contact'] : old('contact') ?>">
 										<div class="invalid-feedback">
 											<?=(!empty(session()->getFlashdata('validation')['contact'])) ? session()->getFlashdata('validation')['contact'] : ''?>
 										</div>

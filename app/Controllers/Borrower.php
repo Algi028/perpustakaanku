@@ -154,7 +154,7 @@ class Borrower extends BaseController
             ])){
                 $validation = \config\Services::validation();
                 session()->setFlashdata('validation',$validation->getErrors());
-                return redirect()->to('borrower-add')->withInput();
+                return redirect()->to('borrower-edit/'.$post['id'])->withInput();
             }
             $this->borrowermodel->save([
                 'id'    => $post['id'],
