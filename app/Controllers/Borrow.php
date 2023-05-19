@@ -10,17 +10,17 @@ use App\Models\StaffModel;
 
 class Borrow extends BaseController
 {
-    protected $borrowmodel;
-    protected $borrowermodel;
-    protected $bookmodel;
-    protected $staffmodel;
+    protected $borrowModel;
+    protected $borrowerModel;
+    protected $bookModel;
+    protected $staffModel;
 
     public function __construct()
     {
-        $this->borrowmodel = new BorrowModel();
-        $this->borrowermodel = new BorrowerModel();
-        $this->bookmodel = new BookModel();
-        $this->staffmodel = new StaffModel();
+        $this->borrowModel = new BorrowModel();
+        $this->borrowerModel = new BorrowerModel();
+        $this->bookModel = new BookModel();
+        $this->staffModel = new StaffModel();
     }
 
     public function index()
@@ -29,7 +29,7 @@ class Borrow extends BaseController
             return redirect()->to(base_url())->with('error', 'Anda harus login');
         }
         $data = array(
-            'borrow' => $this->borrowmodel
+            'borrow' => $this->borrowModel
                 ->select('borrow.id as id,borrower.name,book.title,staff.name as staff,borrow.release_date,borrow.due_date,borrow.note')
                 ->join('borrower', 'borrow.id_borrower=borrower.id', 'left')
                 ->join('book', 'borrow.id_book=book.id', 'left')
@@ -47,9 +47,9 @@ class Borrow extends BaseController
         }
 
         $data = array(
-            'borrower' => $this->borrowermodel->findAll(),
-            'book' => $this->bookmodel->findAll(),
-            'staff' => $this->staffmodel->findAll(),
+            'borrower' => $this->borrowerModel->findAll(),
+            'book' => $this->bookModel->findAll(),
+            'staff' => $this->staffModel->findAll(),
         );
 
         return view('borrow/form', $data);
@@ -72,10 +72,6 @@ class Borrow extends BaseController
                 'rules' => 'required',
                 'errors' => ['required' => 'wajib diisi'],
             ],
-            'id_staff' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'wajib diisi'],
-            ],
             'release_date' => [
                 'rules' => 'required',
                 'errors' => ['required' => 'wajib diisi'],
@@ -94,10 +90,10 @@ class Borrow extends BaseController
             return redirect()->to('borrow-add')->withInput();
         }
 
-        $this->borrowmodel->save([
+        $this->borrowModel->save([
             'id_borrower' => $post['id_borrower'],
             'id_book' => $post['id_book'],
-            'id_staff' => $post['id_staff'],
+            'id_staff' => session('id'),
             'release_date' => $post['release_date'],
             'due_date' => $post['due_date'],
             'note' => $post['note'],
@@ -112,11 +108,11 @@ class Borrow extends BaseController
         }
 
         $data = array(
-            'item'  => $this->borrowmodel->where(['id' => $id])->first(),
+            'item'  => $this->borrowModel->where(['id' => $id])->first(),
             'id'    => $id,
-            'borrower' => $this->borrowermodel->findAll(),
-            'book' => $this->bookmodel->findAll(),
-            'staff' => $this->staffmodel->findAll(),
+            'borrower' => $this->borrowerModel->findAll(),
+            'book' => $this->bookModel->findAll(),
+            'staff' => $this->staffModel->findAll(),
         );
 
         return view('borrow/form', $data);
@@ -136,10 +132,6 @@ class Borrow extends BaseController
                 'errors' => ['required' => 'wajib diisi'],
             ],
             'id_book' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'wajib diisi'],
-            ],
-            'id_staff' => [
                 'rules' => 'required',
                 'errors' => ['required' => 'wajib diisi'],
             ],
@@ -164,21 +156,32 @@ class Borrow extends BaseController
             'id' => $post['id'],
             'id_borrower' => $post['id_borrower'],
             'id_book' => $post['id_book'],
-            'id_staff' => $post['id_staff'],
+            'id_staff' => session('id'),
             'release_date' => $post['release_date'],
             'due_date' => $post['due_date'],
             'note' => $post['note'],
         ]);
         return redirect()->to('borrow')->with('info', 'data berhasil ditambah');
     }
-
-    public function del($id)
+    
+    public function returnbook($id)
+    {
+        if (!session('id')) {
+            return redirect()->to(base_url())->with('error', 'Anda Harus Login');
+        }
+        $this->borrowModel->save([
+            'id' => $id,
+            'note' => "Selesai pinjam",
+        ]);
+        return redirect()->to('borrow');
+    }
+    public function delete($id)
     {
         if (!session('id')) {
             return redirect()->to(base_url())->with('error', 'Anda Harus Login');
         }
 
-        $delete = $this->borrowmodel->delete($id);
+        $delete = $this->borrowModel->delete($id);
         if ($delete) {
             return redirect()->to('borrow');
         }

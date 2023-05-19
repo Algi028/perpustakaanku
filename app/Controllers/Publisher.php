@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Controllers;
-
-use App\Controllers\Basecontroller;
+use App\Controllers\BaseController;
 use App\models\PublisherModel;
 
 class Publisher extends BaseController
@@ -10,21 +9,20 @@ class Publisher extends BaseController
     protected $publishermodel;
 
     public function __construct()
-    {
-        $this->publishermodel = new PublisherModel();
-    }
-    
+        {
+            $this->publishermodel = new PublisherModel(); 
+        }
     public function index()
     {
         if(!session('id'))
         {
-            return redirect()->to(base_url())->with('error', 'Anda harus Login');
+            return redirect()->to(base_url())->with('error', 'Anda Harus Login');
         }
 
         $data = array(
             'publisher' => $this->publishermodel->findAll(),
         );
-
+        
         return view('publisher/index', $data);
     }
 
@@ -32,9 +30,9 @@ class Publisher extends BaseController
     {
         if(!session('id'))
         {
-            return redirect()->to(base_url())->with('error', 'Anda harus login');
+            return redirect()->to(base_url())->with('error', 'Anda Harus Login');
         }
-        
+
         return view('publisher/form');
     }
 
@@ -49,33 +47,29 @@ class Publisher extends BaseController
 
         if(!$this->validate([
             'name' => [
-                'rules' => 'required|is_unique',
-                'errors' => ['required' => 'wajib diisi'],
-                'is_unique' => 'email sudah terdaftar'
-
+                'rules' => 'required',
+                'errors' => ['required' => 'wajib diisi',
+                    'is_unique' => 'nama sudah terdaftar'
+            ],
             ],
             'address' => [
                 'rules' => 'required',
-                'errors' => [
-                    'required' => 'wajib diisi',
-
-                ],
+                'errors' => ['required' => 'wajib diisi'
+            ],
             ],
             'contact' => [
-                'rules' => 'required|numeric',
-                'errors' => [
-                    'required' => 'wajib diisi',
-                    'numeric' => 'khusus angka',
-                ],
+                'rules' => 'required',
+                'errors' => ['required' => 'wajib diisi',
+                    'is_unique' => 'nomor sudah terdaftar'
+            ],
             ],            
         ])){
             $validation = \config\Services::validation();
             session()->setFlashdata('validation',$validation->getErrors());
             return redirect()->to('publisher-add')->withInput();
         }
-
+        
             $this->publishermodel->save([
-                'id'   => $post['id'],
                 'name' => $post['name'],
                 'address' => $post['address'],
                 'contact' => $post['contact'],
@@ -90,12 +84,10 @@ class Publisher extends BaseController
         {
             return redirect()->to(base_url())->with('error','Anda Harus Login');
         }
-
         $data = array(
-            'item' => $this->publishermodel->where(['id' => $id])->first(),
+            'item' => $this->publishermodel->where(['id'=>$id])->first(),
             'id' => $id,
         );
-
         return view('publisher/form', $data);
     }
 
@@ -114,22 +106,16 @@ class Publisher extends BaseController
             if(!$this->validate([
                 'name' => [
                     'rules' => 'required',
-                    'errors' => ['required' => 'wajib diisi'],
+                    'errors' => ['required' => 'wajib diisi',
+                        'is_unique' => 'nama sudah terdaftar'
                 ],
-                'address' => [
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => 'wajib diisi',
-    
-                    ],
                 ],
                 'contact' => [
-                    'rules' => 'required|numeric',
-                    'errors' => [
-                        'required' => 'wajib diisi',
-                        'numeric' => 'khusus angka',
-                    ],
-                ],               
+                    'rules' => 'required|alpha_numeric|min_length[6]',
+                    'errors' => ['required' => 'wajib diisi',
+                        'is_unique' => 'nama sudah terdaftar'
+                ],
+                ],            
             ])){
                 $validation = \config\Services::validation();
                 session()->setFlashdata('validation',$validation->getErrors());
@@ -138,8 +124,7 @@ class Publisher extends BaseController
             $this->publishermodel->save([
                 'id'    => $post['id'],
                 'name' => $post['name'],
-                'address' => $post['address'],
-                'contact' => $post['contact'],
+                'contact' =>$post['contact'],
             ]);
             return redirect()->to('publisher')->with('info','data berhasil ditambah');
     
@@ -151,18 +136,16 @@ class Publisher extends BaseController
                 ],
                 'address' => [
                     'rules' => 'required',
-                    'errors' => [
-                        'required' => 'wajib diisi',
-    
+                    'errors' => ['required' => 'wajib diisi'
                     ],
                 ],
                 'contact' => [
-                    'rules' => 'required|numeric',
+                    'rules' => 'required',
                     'errors' => [
                         'required' => 'wajib diisi',
-                        'numeric' => 'khusus angka',
+                        'min_length' => 'minimal 10 karakter'
                     ],
-                ],               
+                ],            
             ])){
                 $validation = \config\Services::validation();
                 session()->setFlashdata('validation',$validation->getErrors());
@@ -177,7 +160,6 @@ class Publisher extends BaseController
             return redirect()->to('publisher')->with('info','data berhasil ditambah');
         }       
     }
-
     public function del($id)
     {
         if(!session('id'))
@@ -190,6 +172,5 @@ class Publisher extends BaseController
         {
             return redirect()->to('publisher');
         }
-
     }
 }
